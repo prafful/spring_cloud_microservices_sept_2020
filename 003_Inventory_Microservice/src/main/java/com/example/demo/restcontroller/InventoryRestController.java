@@ -10,35 +10,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.ProductEntity;
-import com.example.demo.service.ProductService;
+import com.example.demo.entity.InventoryEntity;
+import com.example.demo.service.InventoryService;
 
 @RestController
-public class ProductRestController {
+public class InventoryRestController {
 	
 	@Autowired
-	private ProductService productService;
+	private InventoryService inventoryService;
 	
 	@RequestMapping("/")
 	public String welcome() {
-		return "Welcome to Product Microservice!!!!";
+		return "Welcome to Inventory Microservice!!!!";
 	}
 	
 	@GetMapping("/all")
-	public List<ProductEntity> getAllProducts() {
-		return productService.getAllProducts();
+	public List<InventoryEntity> getAllInventory() {
+		return inventoryService.getAllInventory();
 	}
 	
 	@PostMapping("/add")
-	public List<ProductEntity> addProduct(@RequestBody ProductEntity pe) {
-		return productService.addProduct(pe);
+	public List<InventoryEntity> addInventory(@RequestBody InventoryEntity ie) {
+		return inventoryService.addInventory(ie);
 	}
 	
-	//http://localhost:9991/P001
-	//http://localhost:9991/P002
+	//http://localhost:9992/P001
+	//http://localhost:9992/P002
 	@GetMapping("/{code}")
-	public ProductEntity getProductByCode(@PathVariable String code) {
-		return productService.getProductByCode(code);
+	public InventoryEntity getInventoryByProductCode(@PathVariable String code) {
+		return inventoryService.getInventoryByProductCode(code);
 	}
 
 }
