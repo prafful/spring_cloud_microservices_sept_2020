@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.entity.ProductEntity;
 import com.example.demo.pojo.InventoryResponse;
 import com.example.demo.repository.ProductRepository;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Repository
 public class ProductDao {
@@ -33,13 +35,18 @@ public class ProductDao {
 	}
 
 	
+	@HystrixCommand(fallbackMethod = "getProductByCodeFailed",
+					commandProperties = {
+						@HystrixProperty (name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000")
+					})
 	public ProductEntity getProductByCode(String productCode) {
 		// TODO Auto-generated method stub
 		///connect with inventory microservice to get product status
 		//check if product exists with given productCode
 		ProductEntity tempProduct = productRepository.findByProductCode(productCode);	
 		
-		String url = "http://localhost:9992/" + productCode;
+		//String url = "http://localhost:9992/" + productCode;
+		String url = "http://localhost:8080/shop/inventory/" + productCode;
 		ResponseEntity<InventoryResponse> inventoryResponse 
 					= restTemplate.getForEntity(url, InventoryResponse.class);
 		System.out.println("Response received from inventory ms!!!!");
@@ -56,6 +63,12 @@ public class ProductDao {
 		}
 		
 		return productRepository.findByProductCode(productCode);
+	}
+	
+	public ProductEntity getProductByCodeFailed(String productCode) {
+		System.out.println("################      Failed            ########################");
+		ProductEntity tempProduct = productRepository.findByProductCode(productCode);	
+		return tempProduct;
 	}
 
 }
