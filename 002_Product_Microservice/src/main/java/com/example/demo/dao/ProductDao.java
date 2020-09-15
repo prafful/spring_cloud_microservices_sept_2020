@@ -37,7 +37,7 @@ public class ProductDao {
 	
 	@HystrixCommand(fallbackMethod = "getProductByCodeFailed",
 					commandProperties = {
-						@HystrixProperty (name = "execution.isolation.thread.timeoutInMilliseconds", value = "4000")
+						@HystrixProperty (name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000")
 					})
 	public ProductEntity getProductByCode(String productCode) {
 		// TODO Auto-generated method stub
