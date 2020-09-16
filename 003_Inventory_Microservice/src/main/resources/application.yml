@@ -1,27 +1,0 @@
-server:
-  port: 9992
-spring:  application:    name: inventory-microservice  h2:    console:      enabled: true
-      path: /inventory-h2  datasource:    url: jdbc:h2:~/inventorymicroservice
-    driver-class-name: org.h2.Driver
-  jpa:    show-sql: true
-    hibernate:      ddl-auto: update
-    properties:      generate_statistics: true    
-    
-eureka:  instance:    hostname: localhost  client:    register-with-eureka: true
-    fetch-registry: true
-    service-url:      defaultZone: http://${eureka.instance.hostname}:1111/eureka
-      
-      
-
-
-
-
-
-
-
-
-
-
-
-
-      
