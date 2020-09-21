@@ -7,21 +7,35 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.pojo.Friend;
+
 @RestController
 @RequestMapping("kafka")
 public class KafkaRestController {
 	
+	//@Autowired 
+	//KafkaTemplate<String, String> kafkaTemplate1;
+	
 	@Autowired
-	KafkaTemplate<String, String> kafkaTemplate;
+	KafkaTemplate<String, Friend> kafkaTemplate;
 	
 	private static final String TOPIC = "topic1";
 
-	@GetMapping("/publish/{message}")
-	public String publishMessgeToKafka(@PathVariable String message) {
+	/*
+	 * @GetMapping("/publish/{message}") public String
+	 * publishMessageToKafka(@PathVariable String message) {
+	 * 
+	 * kafkaTemplate1.send(TOPIC, message);
+	 * 
+	 * return "Publish is success!!!!"; }
+	 */
+	
+	@GetMapping("/publish/friend")
+	public String publishFriendToKafka() {
 		
-		kafkaTemplate.send(TOPIC, message);
+		kafkaTemplate.send(TOPIC, new Friend("OBB", "Chennai"));
 		
-		return "Publish is success!!!!";
+		return "Publish Friend is success!!!!";
 	}
 	
 }
